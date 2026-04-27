@@ -301,22 +301,22 @@
       <div class="pin-dot" id="dot2"></div>
       <div class="pin-dot" id="dot3"></div>
     </div>
-    <div class="pin-keypad">
-      <button class="pin-key" onclick="pinInput('1')">1</button>
-      <button class="pin-key" onclick="pinInput('2')">2</button>
-      <button class="pin-key" onclick="pinInput('3')">3</button>
-      <button class="pin-key" onclick="pinInput('4')">4</button>
-      <button class="pin-key" onclick="pinInput('5')">5</button>
-      <button class="pin-key" onclick="pinInput('6')">6</button>
-      <button class="pin-key" onclick="pinInput('7')">7</button>
-      <button class="pin-key" onclick="pinInput('8')">8</button>
-      <button class="pin-key" onclick="pinInput('9')">9</button>
+    <div class="pin-keypad" id="pinKeypad">
+      <button class="pin-key" data-val="1">1</button>
+      <button class="pin-key" data-val="2">2</button>
+      <button class="pin-key" data-val="3">3</button>
+      <button class="pin-key" data-val="4">4</button>
+      <button class="pin-key" data-val="5">5</button>
+      <button class="pin-key" data-val="6">6</button>
+      <button class="pin-key" data-val="7">7</button>
+      <button class="pin-key" data-val="8">8</button>
+      <button class="pin-key" data-val="9">9</button>
       <div></div>
-      <button class="pin-key" onclick="pinInput('0')">0</button>
-      <button class="pin-key del" onclick="pinDelete()">&#9003;</button>
+      <button class="pin-key" data-val="0">0</button>
+      <button class="pin-key del" data-action="del">&#9003;</button>
     </div>
     <div class="pin-msg" id="pinMsg"></div>
-    <button class="pin-back" onclick="pinCancel()">&#8592; Back</button>
+    <button class="pin-back" id="pinBackBtn">&#8592; Back</button>
   </div>
 </div>
 
@@ -1099,6 +1099,21 @@
       setTimeout(() => { pinCode = ''; updateDots(); $('pinMsg').textContent = ''; }, 800);
     }
   }
+
+  // Fast touch PIN keypad (eliminates 300ms click delay on iPad)
+  function fastTap(el, fn) {
+    let handled = false;
+    el.addEventListener('touchstart', e => { e.preventDefault(); handled = true; fn(); }, { passive: false });
+    el.addEventListener('click', () => { if (!handled) fn(); handled = false; });
+  }
+  $('pinKeypad').querySelectorAll('.pin-key').forEach(btn => {
+    if (btn.dataset.val !== undefined) {
+      fastTap(btn, () => pinInput(btn.dataset.val));
+    } else if (btn.dataset.action === 'del') {
+      fastTap(btn, pinDelete);
+    }
+  });
+  fastTap($('pinBackBtn'), pinCancel);
 
   // Populate salesRep dropdown
   (function() {
