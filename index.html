@@ -271,8 +271,7 @@
   .pin-key.cancel { font-size: 13px; color: #94a3b8; font-weight: 500; }
   .pin-key.del { font-size: 13px; color: #f97316; font-weight: 600; }
   .pin-msg { font-size: 12px; color: #ef4444; margin-top: 10px; min-height: 18px; font-weight: 500; }
-  .pin-back { margin-top: 14px; background: none; border: 1.5px solid #475569; border-radius: 10px; color: #94a3b8; font-size: 14px; font-weight: 600; padding: 8px 28px; cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent; transition: all 0.12s; }
-  .pin-back:active { background: rgba(255,255,255,0.06); color: #e2e8f0; }
+  .pin-key.back { font-size: 18px; color: #94a3b8; font-weight: 600; }
   .login-footer { position: absolute; bottom: 20px; font-size: 11px; color: #475569; letter-spacing: 0.3px; }
 </style>
 </head>
@@ -311,12 +310,11 @@
       <button class="pin-key" data-val="7">7</button>
       <button class="pin-key" data-val="8">8</button>
       <button class="pin-key" data-val="9">9</button>
-      <div></div>
+      <button class="pin-key back" id="pinBackBtn">&#8592;</button>
       <button class="pin-key" data-val="0">0</button>
       <button class="pin-key del" data-action="del">&#9003;</button>
     </div>
     <div class="pin-msg" id="pinMsg"></div>
-    <button class="pin-back" id="pinBackBtn">&#8592; Back</button>
   </div>
 </div>
 
