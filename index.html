@@ -194,6 +194,17 @@
   }
   @media (orientation: portrait) and (max-width: 900px) { .row.two { grid-template-columns: 1fr; } }
 
+  /* Collapsible sections */
+  .collapse-toggle {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 12px; color: #1a8fe6; font-weight: 600;
+    background: none; border: none; cursor: pointer;
+    padding: 6px 0; margin-top: 2px; touch-action: manipulation;
+  }
+  .collapse-toggle:active { opacity: 0.7; }
+  .collapse-content { display: none; margin-top: 5px; }
+  .collapse-content.open { display: block; }
+
   /* ============================================================
      PRINT STYLES — US Letter (8.5" x 11")
      ============================================================ */
@@ -342,6 +353,10 @@
       </select>
       <span class="order-meta" id="orderNo">#1777265686</span>
       <span class="order-meta" id="orderTime">2026-04-26 21:54</span>
+      <a href="https://ifixforu.com/employee/zelle" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:5px;background:#eef7ff;color:#1a73e8;border:1px solid #cfe4ff;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;">
+        &#36; Zelle Verify
+      </a>
       <div class="user-chip"><div class="user-avatar">A</div><span>Anderson</span></div>
     </div>
   </div>
@@ -365,54 +380,60 @@
         <div class="field"><label>Name *</label><input type="text" id="customerName" placeholder="Customer name" autocomplete="off"></div>
         <div class="field"><label>Phone *</label><input type="tel" id="customerPhone" placeholder="(626) 123-4567" autocomplete="off"></div>
       </div>
-      <div class="row two">
-        <div class="field"><label>Email</label><input type="email" id="customerEmail" placeholder="customer@example.com" autocomplete="off"></div>
-        <div class="field"><label>Language</label>
-          <select id="customerLang"><option value="en">English</option><option value="zh">Chinese</option><option value="es">Spanish</option><option value="vi">Vietnamese</option><option value="ko">Korean</option></select>
+      <button class="collapse-toggle" onclick="toggleCollapse(this)"><span class="collapse-arrow">&#9654;</span> More Info</button>
+      <div class="collapse-content">
+        <div class="row two">
+          <div class="field"><label>Email</label><input type="email" id="customerEmail" placeholder="customer@example.com" autocomplete="off"></div>
+          <div class="field"><label>Language</label>
+            <select id="customerLang"><option value="en">English</option><option value="zh">Chinese</option><option value="es">Spanish</option><option value="vi">Vietnamese</option><option value="ko">Korean</option></select>
+          </div>
         </div>
-      </div>
-      <div class="row two">
-        <div class="field"><label>Referral</label>
-          <select id="referralSource"><option value="">Select...</option><option>Walk-in</option><option>Google Search</option><option>Yelp</option><option>Apple Find Service</option><option>Returning Customer</option><option>Friend Referral</option><option>Social Media</option></select>
-        </div>
-        <div class="field"><label>Tech / Rep</label>
-          <select id="salesRep"></select>
+        <div class="row two">
+          <div class="field"><label>Referral</label>
+            <select id="referralSource"><option value="">Select...</option><option>Walk-in</option><option>Google Search</option><option>Yelp</option><option>Apple Find Service</option><option>Returning Customer</option><option>Friend Referral</option><option>Social Media</option></select>
+          </div>
+          <div class="field"><label>Tech / Rep</label>
+            <select id="salesRep"></select>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-head"><div class="card-title"><span class="step-num">2</span>Service &amp; Status</div></div>
-      <div style="margin-bottom: 5px;"><span class="group-label">Service Type</span>
-        <div class="pill-group" id="serviceType">
-          <div class="pill selected" data-val="standard">Standard Repair</div>
-          <div class="pill" data-val="apple_irp">Apple IRP</div>
-          <div class="pill" data-val="mail_in">Mail-In</div>
-          <div class="pill" data-val="diagnostic">Diagnostic Only</div>
+      <div class="card-head"><div class="card-title"><span class="step-num">2</span>Service &amp; Status</div><div class="meta">Standard · Out-of-Warranty</div></div>
+      <button class="collapse-toggle" onclick="toggleCollapse(this)"><span class="collapse-arrow">&#9654;</span> Change defaults</button>
+      <div class="collapse-content">
+        <div style="margin-bottom: 5px;"><span class="group-label">Service Type</span>
+          <div class="pill-group" id="serviceType">
+            <div class="pill selected" data-val="standard">Standard Repair</div>
+            <div class="pill" data-val="apple_irp">Apple IRP</div>
+            <div class="pill" data-val="mail_in">Mail-In</div>
+            <div class="pill" data-val="diagnostic">Diagnostic Only</div>
+          </div>
         </div>
-      </div>
-      <div style="margin-bottom: 5px;"><span class="group-label">Repair History</span>
-        <div class="pill-group" id="repairHistory">
-          <div class="pill selected" data-val="unknown">Unknown</div>
-          <div class="pill" data-val="not_repaired">Never Repaired</div>
-          <div class="pill" data-val="repaired">Repaired Before</div>
+        <div style="margin-bottom: 5px;"><span class="group-label">Repair History</span>
+          <div class="pill-group" id="repairHistory">
+            <div class="pill selected" data-val="unknown">Unknown</div>
+            <div class="pill" data-val="not_repaired">Never Repaired</div>
+            <div class="pill" data-val="repaired">Repaired Before</div>
+          </div>
         </div>
-      </div>
-      <div style="margin-bottom: 5px;"><span class="group-label">Warranty</span>
-        <div class="pill-group" id="warrantyStatus">
-          <div class="pill" data-val="warranty">In-Warranty</div>
-          <div class="pill selected warn" data-val="non_warranty">Out-of-Warranty</div>
-          <div class="pill" data-val="pending">Pending</div>
-          <div class="pill" data-val="ifx_warranty">iFixForU 90-Day</div>
+        <div style="margin-bottom: 5px;"><span class="group-label">Warranty</span>
+          <div class="pill-group" id="warrantyStatus">
+            <div class="pill" data-val="warranty">In-Warranty</div>
+            <div class="pill selected warn" data-val="non_warranty">Out-of-Warranty</div>
+            <div class="pill" data-val="pending">Pending</div>
+            <div class="pill" data-val="ifx_warranty">iFixForU 90-Day</div>
+          </div>
         </div>
-      </div>
-      <div><span class="group-label">Accessories</span>
-        <div class="pill-group" id="accessories">
-          <div class="pill" data-val="usb">USB Cable</div>
-          <div class="pill" data-val="sim">SIM Card</div>
-          <div class="pill" data-val="charger">Charger</div>
-          <div class="pill" data-val="case">Case</div>
-          <div class="pill selected" data-val="other">None / Other</div>
+        <div style="margin-bottom: 5px;"><span class="group-label">Accessories</span>
+          <div class="pill-group" id="accessories">
+            <div class="pill" data-val="usb">USB Cable</div>
+            <div class="pill" data-val="sim">SIM Card</div>
+            <div class="pill" data-val="charger">Charger</div>
+            <div class="pill" data-val="case">Case</div>
+            <div class="pill selected" data-val="other">None / Other</div>
+          </div>
         </div>
       </div>
     </div>
@@ -482,41 +503,44 @@
           </button>
         </div>
       </div>
-      <div class="row four">
-        <div class="field"><label>Color / Storage</label><input type="text" id="deviceColor" placeholder="Titanium 256GB" autocomplete="off"></div>
-        <div class="field"><label>Find My / FRP *</label>
-          <div class="pill-group" id="findMyStatus" style="margin-top:2px;">
-            <div class="pill" data-val="off" style="border-color:#16a34a;color:#16a34a;">OFF</div>
-            <div class="pill warn" data-val="on">ON</div>
-            <div class="pill selected" data-val="unknown">N/A</div>
+      <button class="collapse-toggle" onclick="toggleCollapse(this)"><span class="collapse-arrow">&#9654;</span> More Device Info</button>
+      <div class="collapse-content">
+        <div class="row four">
+          <div class="field"><label>Color / Storage</label><input type="text" id="deviceColor" placeholder="Titanium 256GB" autocomplete="off"></div>
+          <div class="field"><label>Find My / FRP *</label>
+            <div class="pill-group" id="findMyStatus" style="margin-top:2px;">
+              <div class="pill" data-val="off" style="border-color:#16a34a;color:#16a34a;">OFF</div>
+              <div class="pill warn" data-val="on">ON</div>
+              <div class="pill selected" data-val="unknown">N/A</div>
+            </div>
           </div>
-        </div>
-        <div class="field"><label>Battery</label>
-          <div style="position:relative;"><input type="number" id="batteryHealth" placeholder="87" autocomplete="off" min="0" max="100" inputmode="numeric" style="padding-right:22px;"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:12px;color:#6b7a8f;font-weight:600;pointer-events:none;">%</span></div>
-        </div>
-        <div class="field"><label>Passcode</label>
-          <div style="display:flex;gap:4px;align-items:center;margin-top:2px;">
-            <div class="pill-group" id="passcodeType" style="flex-shrink:0;">
-              <div class="pill selected" data-val="pin" onclick="switchPasscodeMode('pin')" style="padding:3px 8px;font-size:10.5px;min-height:22px;">PIN</div>
-              <div class="pill" data-val="pattern" onclick="switchPasscodeMode('pattern')" style="padding:3px 8px;font-size:10.5px;min-height:22px;">Pattern</div>
+          <div class="field"><label>Battery</label>
+            <div style="position:relative;"><input type="number" id="batteryHealth" placeholder="87" autocomplete="off" min="0" max="100" inputmode="numeric" style="padding-right:22px;"><span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:12px;color:#6b7a8f;font-weight:600;pointer-events:none;">%</span></div>
+          </div>
+          <div class="field"><label>Passcode</label>
+            <div style="display:flex;gap:4px;align-items:center;margin-top:2px;">
+              <div class="pill-group" id="passcodeType" style="flex-shrink:0;">
+                <div class="pill selected" data-val="pin" onclick="switchPasscodeMode('pin')" style="padding:3px 8px;font-size:10.5px;min-height:22px;">PIN</div>
+                <div class="pill" data-val="pattern" onclick="switchPasscodeMode('pattern')" style="padding:3px 8px;font-size:10.5px;min-height:22px;">Pattern</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="passcodeArea" style="margin-top:4px;">
-        <div id="pinInput" class="field">
-          <input type="text" id="devicePass" placeholder="Enter passcode / password" autocomplete="off">
-        </div>
-        <div id="patternInput" style="display:none;">
-          <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;">
-            <div style="position:relative;">
-              <canvas id="patternCanvas" width="180" height="180" style="width:180px;height:180px;border:2px solid #d8dde5;border-radius:8px;background:#fafbfc;touch-action:none;cursor:crosshair;display:block;"></canvas>
-              <div id="patternPlaceholder" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#b0b8c4;font-size:11px;pointer-events:none;text-align:center;font-weight:500;">Draw pattern</div>
-            </div>
-            <div>
-              <div id="patternSequence" style="font-size:12px;color:#1a2332;font-weight:600;min-height:18px;margin-bottom:4px;"></div>
-              <div style="font-size:10px;color:#6b7a8f;margin-bottom:6px;">e.g. 1→4→7→8→9</div>
-              <button class="sig-clear" onclick="clearPattern()" style="font-size:11px;padding:3px 8px;">Clear</button>
+        <div id="passcodeArea" style="margin-top:4px;">
+          <div id="pinInput" class="field">
+            <input type="text" id="devicePass" placeholder="Enter passcode / password" autocomplete="off">
+          </div>
+          <div id="patternInput" style="display:none;">
+            <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;">
+              <div style="position:relative;">
+                <canvas id="patternCanvas" width="180" height="180" style="width:180px;height:180px;border:2px solid #d8dde5;border-radius:8px;background:#fafbfc;touch-action:none;cursor:crosshair;display:block;"></canvas>
+                <div id="patternPlaceholder" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#b0b8c4;font-size:11px;pointer-events:none;text-align:center;font-weight:500;">Draw pattern</div>
+              </div>
+              <div>
+                <div id="patternSequence" style="font-size:12px;color:#1a2332;font-weight:600;min-height:18px;margin-bottom:4px;"></div>
+                <div style="font-size:10px;color:#6b7a8f;margin-bottom:6px;">e.g. 1&rarr;4&rarr;7&rarr;8&rarr;9</div>
+                <button class="sig-clear" onclick="clearPattern()" style="font-size:11px;padding:3px 8px;">Clear</button>
+              </div>
             </div>
           </div>
         </div>
@@ -525,30 +549,27 @@
 
     <div class="card full">
       <div class="card-head"><div class="card-title"><span class="step-num">4</span>Estimate &amp; Pricing</div></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;">
-        <div style="flex:1;min-width:200px;">
-          <div style="margin-bottom:5px;"><span class="group-label">Parts *</span>
-            <div class="pill-group" id="partsType">
-              <div class="pill selected" data-val="oem">OEM</div>
-              <div class="pill" data-val="aftermarket">Aftermarket</div>
-              <div class="pill" data-val="refurbished">Refurb</div>
-            </div>
-          </div>
-          <div class="row three">
-            <div class="field"><label>Repair Time</label>
-              <select id="repairTime"><option value="">Select...</option><option>Under 30 min</option><option>1 - 2 hours</option><option>Same day</option><option>1 - 2 days</option><option>3 - 5 days</option><option>Pending</option></select>
-            </div>
-            <div class="field"><label>Pickup</label><input type="text" id="promisedPickup" placeholder="Apr 27, 5PM"></div>
-            <div class="field"><label>Max Auth $</label><input type="number" id="maxAuth" placeholder="0" step="0.01" inputmode="decimal"></div>
+      <div class="price-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="price-item"><label>Subtotal</label><input type="number" id="subtotal" placeholder="0.00" step="0.01" inputmode="decimal"></div>
+        <div class="price-item"><label>Deposit</label><input type="number" id="deposit" placeholder="0.00" step="0.01" inputmode="decimal"></div>
+        <div class="price-item price-total"><label>Balance Due</label><input type="text" id="balance" placeholder="0.00" readonly></div>
+      </div>
+      <div class="row two" style="margin-top:5px;">
+        <div class="field"><label>Repair Time</label>
+          <select id="repairTime"><option value="">Select...</option><option>Under 30 min</option><option>1 - 2 hours</option><option>Same day</option><option>1 - 2 days</option><option>3 - 5 days</option><option>Pending</option></select>
+        </div>
+        <div class="field"><label>Pickup</label><input type="text" id="promisedPickup" placeholder="Apr 27, 5PM"></div>
+      </div>
+      <button class="collapse-toggle" onclick="toggleCollapse(this)"><span class="collapse-arrow">&#9654;</span> More Options</button>
+      <div class="collapse-content">
+        <div style="margin-bottom:5px;"><span class="group-label">Parts</span>
+          <div class="pill-group" id="partsType">
+            <div class="pill selected" data-val="oem">OEM</div>
+            <div class="pill" data-val="aftermarket">Aftermarket</div>
+            <div class="pill" data-val="refurbished">Refurb</div>
           </div>
         </div>
-        <div style="flex:1;min-width:280px;">
-          <div class="price-grid" style="grid-template-columns:1fr 1fr 1fr;">
-            <div class="price-item"><label>Subtotal</label><input type="number" id="subtotal" placeholder="0.00" step="0.01" inputmode="decimal"></div>
-            <div class="price-item"><label>Deposit</label><input type="number" id="deposit" placeholder="0.00" step="0.01" inputmode="decimal"></div>
-            <div class="price-item price-total"><label>Balance Due</label><input type="text" id="balance" placeholder="0.00" readonly></div>
-          </div>
-        </div>
+        <div class="field"><label>Max Auth $</label><input type="number" id="maxAuth" placeholder="0" step="0.01" inputmode="decimal"></div>
       </div>
     </div>
 
@@ -611,39 +632,44 @@
 
     <div class="card full">
       <div class="card-head"><div class="card-title"><span class="step-num">6</span>Pre-Repair Function Test</div><div class="meta">Before repair</div></div>
-      <p style="font-size:10px;color:#d97706;margin-bottom:5px;font-weight:500;">&#9888; Record what works BEFORE touching the device.</p>
+      <p style="font-size:10px;color:#6b7a8f;margin-bottom:5px;font-weight:500;">All items default to OK. Deselect any that have issues.</p>
       <div class="checkbox-grid" id="funcTestGrid">
-        <div class="check-pill func-test" data-val="ft_screen_display"><div class="check-box"></div>Screen Display</div>
-        <div class="check-pill func-test" data-val="ft_touch"><div class="check-box"></div>Touch Response</div>
-        <div class="check-pill func-test" data-val="ft_face_id"><div class="check-box"></div>Face ID / Touch ID</div>
-        <div class="check-pill func-test" data-val="ft_front_cam"><div class="check-box"></div>Front Camera</div>
-        <div class="check-pill func-test" data-val="ft_rear_cam"><div class="check-box"></div>Rear Camera</div>
-        <div class="check-pill func-test" data-val="ft_ear_speaker"><div class="check-box"></div>Ear Speaker</div>
-        <div class="check-pill func-test" data-val="ft_loud_speaker"><div class="check-box"></div>Loud Speaker</div>
-        <div class="check-pill func-test" data-val="ft_mic"><div class="check-box"></div>Microphone</div>
-        <div class="check-pill func-test" data-val="ft_wifi"><div class="check-box"></div>Wi-Fi</div>
-        <div class="check-pill func-test" data-val="ft_bluetooth"><div class="check-box"></div>Bluetooth</div>
-        <div class="check-pill func-test" data-val="ft_cellular"><div class="check-box"></div>Cellular Signal</div>
-        <div class="check-pill func-test" data-val="ft_charging"><div class="check-box"></div>Charging Port</div>
-        <div class="check-pill func-test" data-val="ft_buttons"><div class="check-box"></div>Buttons (Vol/Power)</div>
-        <div class="check-pill func-test" data-val="ft_vibration"><div class="check-box"></div>Vibration</div>
-        <div class="check-pill func-test" data-val="ft_proximity"><div class="check-box"></div>Proximity Sensor</div>
-        <div class="check-pill func-test" data-val="ft_nfc"><div class="check-box"></div>NFC / Apple Pay</div>
-        <div class="check-pill func-test" data-val="ft_flashlight"><div class="check-box"></div>Flashlight</div>
-        <div class="check-pill func-test" data-val="ft_gps"><div class="check-box"></div>GPS</div>
-        <div class="check-pill func-test" data-val="ft_sim"><div class="check-box"></div>SIM Detection</div>
-        <div class="check-pill func-test" data-val="ft_true_tone"><div class="check-box"></div>True Tone</div>
+        <div class="check-pill func-test selected" data-val="ft_screen_display"><div class="check-box"></div>Screen Display</div>
+        <div class="check-pill func-test selected" data-val="ft_touch"><div class="check-box"></div>Touch Response</div>
+        <div class="check-pill func-test selected" data-val="ft_face_id"><div class="check-box"></div>Face ID / Touch ID</div>
+        <div class="check-pill func-test selected" data-val="ft_front_cam"><div class="check-box"></div>Front Camera</div>
+        <div class="check-pill func-test selected" data-val="ft_rear_cam"><div class="check-box"></div>Rear Camera</div>
+        <div class="check-pill func-test selected" data-val="ft_ear_speaker"><div class="check-box"></div>Ear Speaker</div>
+        <div class="check-pill func-test selected" data-val="ft_loud_speaker"><div class="check-box"></div>Loud Speaker</div>
+        <div class="check-pill func-test selected" data-val="ft_mic"><div class="check-box"></div>Microphone</div>
+        <div class="check-pill func-test selected" data-val="ft_wifi"><div class="check-box"></div>Wi-Fi</div>
+        <div class="check-pill func-test selected" data-val="ft_bluetooth"><div class="check-box"></div>Bluetooth</div>
+        <div class="check-pill func-test selected" data-val="ft_cellular"><div class="check-box"></div>Cellular Signal</div>
+        <div class="check-pill func-test selected" data-val="ft_charging"><div class="check-box"></div>Charging Port</div>
+        <div class="check-pill func-test selected" data-val="ft_buttons"><div class="check-box"></div>Buttons (Vol/Power)</div>
+        <div class="check-pill func-test selected" data-val="ft_vibration"><div class="check-box"></div>Vibration</div>
+        <div class="check-pill func-test selected" data-val="ft_proximity"><div class="check-box"></div>Proximity Sensor</div>
+        <div class="check-pill func-test selected" data-val="ft_nfc"><div class="check-box"></div>NFC / Apple Pay</div>
+        <div class="check-pill func-test selected" data-val="ft_flashlight"><div class="check-box"></div>Flashlight</div>
+        <div class="check-pill func-test selected" data-val="ft_gps"><div class="check-box"></div>GPS</div>
+        <div class="check-pill func-test selected" data-val="ft_sim"><div class="check-box"></div>SIM Detection</div>
+        <div class="check-pill func-test selected" data-val="ft_true_tone"><div class="check-box"></div>True Tone</div>
       </div>
       <div style="display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center;">
-        <button class="sig-clear" style="font-size:11px;color:#16a34a;border-color:#bbf7d0;padding:3px 8px;" onclick="markAllFuncTest(true)">&#10003; All Working</button>
-        <button class="sig-clear" style="font-size:11px;padding:3px 8px;" onclick="markAllFuncTest(false)">Clear</button>
-        <span style="font-size:10px;color:#6b7a8f;"><strong style="color:#1a8fe6;">Selected = Working</strong></span>
+        <button class="sig-clear" style="font-size:11px;color:#16a34a;border-color:#bbf7d0;padding:3px 8px;" onclick="markAllFuncTest(true)">&#10003; All OK</button>
+        <button class="sig-clear" style="font-size:11px;padding:3px 8px;" onclick="markAllFuncTest(false)">Clear All</button>
+        <span style="font-size:10px;color:#6b7a8f;"><strong style="color:#1a8fe6;">Selected = OK</strong> · deselect = issue</span>
       </div>
-      <div class="field" style="margin-top:5px;"><label>Cosmetic Notes</label><textarea id="cosmeticNotes" placeholder="Scratches, dents, screen protector cracked..."></textarea></div>
+      <button class="collapse-toggle" onclick="toggleCollapse(this)"><span class="collapse-arrow">&#9654;</span> Cosmetic Notes</button>
+      <div class="collapse-content">
+        <div class="field"><label>Cosmetic Notes</label><textarea id="cosmeticNotes" placeholder="Scratches, dents, screen protector cracked..."></textarea></div>
+      </div>
     </div>
 
     <div class="card full">
       <div class="card-head"><div class="card-title"><span class="step-num">7</span>Device Photos</div><div class="meta"><strong id="photoCount">0</strong> photos</div></div>
+      <button class="collapse-toggle" onclick="toggleCollapse(this)"><span class="collapse-arrow">&#9654;</span> Add Photos</button>
+      <div class="collapse-content">
       <div class="photo-slots" id="photoSlots">
         <div class="photo-slot" data-label="Front" onclick="capturePhoto(this)">
           <div class="slot-icon">📱</div><div class="slot-label">Front</div>
@@ -675,6 +701,7 @@
         </div>
       </div>
       <input type="file" id="photoCaptureInput" accept="image/*" capture="environment" style="display:none">
+      </div>
     </div>
 
     <div class="card full">
@@ -697,27 +724,6 @@
       </div>
     </div>
 
-    <div class="card full">
-      <div class="card-head"><div class="card-title"><span class="step-num">9</span>Receipt Delivery</div><div class="meta">Multi-select OK</div></div>
-      <div class="delivery-grid" id="deliveryGrid">
-        <div class="delivery-card selected" data-val="email">
-          <div class="delivery-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
-          <div class="delivery-name">Email</div><div class="delivery-desc">PDF to inbox</div>
-        </div>
-        <div class="delivery-card" data-val="sms">
-          <div class="delivery-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-          <div class="delivery-name">SMS</div><div class="delivery-desc">Text with link</div>
-        </div>
-        <div class="delivery-card" data-val="qr">
-          <div class="delivery-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h2v2h-2z M18 14h3v3 M14 18h2v3 M18 18h3"/></svg></div>
-          <div class="delivery-name">QR Code</div><div class="delivery-desc">Scan to download</div>
-        </div>
-        <div class="delivery-card" data-val="print">
-          <div class="delivery-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7 M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
-          <div class="delivery-name">Print</div><div class="delivery-desc">Letter paper copy</div>
-        </div>
-      </div>
-    </div>
 
   </div>
 
@@ -731,7 +737,6 @@
 </div>
 
 <!-- =========== PRINT VIEW =========== -->
-<div id="printView">
 <div id="printView">
 
   <div class="print-sheet">
@@ -974,7 +979,12 @@
       // Update topbar user chip
       document.querySelector('.user-avatar').textContent = getInitials(s.name);
       document.querySelector('.user-chip span').textContent = s.name;
-      // Set salesRep dropdown to current user
+      // Save recent staff
+      let recent = JSON.parse(localStorage.getItem('ezfixit_recent_staff') || '[]');
+      recent = recent.filter(n => n !== s.name);
+      recent.unshift(s.name);
+      localStorage.setItem('ezfixit_recent_staff', JSON.stringify(recent.slice(0, 5)));
+      populateSalesRep();
       $('salesRep').value = s.name;
       // Init order number & time
       $('orderNo').textContent = '#' + orderNo;
@@ -1003,16 +1013,28 @@
   });
   fastTap($('pinBackBtn'), pinCancel);
 
-  // Populate salesRep dropdown
-  (function() {
+  // Populate salesRep dropdown (recent staff first)
+  function populateSalesRep() {
     const sel = $('salesRep');
-    STAFF.forEach(s => {
+    const cur = sel.value;
+    sel.innerHTML = '';
+    const recent = JSON.parse(localStorage.getItem('ezfixit_recent_staff') || '[]');
+    const sorted = [...STAFF].sort((a, b) => {
+      const ai = recent.indexOf(a.name), bi = recent.indexOf(b.name);
+      if (ai !== -1 && bi === -1) return -1;
+      if (ai === -1 && bi !== -1) return 1;
+      if (ai !== -1 && bi !== -1) return ai - bi;
+      return 0;
+    });
+    sorted.forEach(s => {
       const opt = document.createElement('option');
       opt.value = s.name;
       opt.textContent = s.name;
       sel.appendChild(opt);
     });
-  })();
+    if (cur) sel.value = cur;
+  }
+  populateSalesRep();
 
   let orderNo = '17' + Date.now().toString().slice(-8);
 
@@ -1095,9 +1117,25 @@
     });
   });
 
-  $('deliveryGrid').querySelectorAll('.delivery-card').forEach(c => {
-    c.addEventListener('click', () => c.classList.toggle('selected'));
-  });
+  /* ── Collapse toggle ── */
+  function toggleCollapse(btn) {
+    const content = btn.nextElementSibling;
+    if (!content) return;
+    const arrow = btn.querySelector('.collapse-arrow');
+    content.classList.toggle('open');
+    if (arrow) arrow.textContent = content.classList.contains('open') ? '\u25BC' : '\u25B6';
+  }
+
+  /* ── Store memory ── */
+  (function() {
+    const saved = localStorage.getItem('ezfixit_last_store');
+    if (saved && $('storeSelect').querySelector('[value="'+saved+'"]')) {
+      $('storeSelect').value = saved;
+    }
+    $('storeSelect').addEventListener('change', function() {
+      localStorage.setItem('ezfixit_last_store', this.value);
+    });
+  })();
 
   function calcPricing() {
     const sub = parseFloat($('subtotal').value) || 0;
@@ -1345,7 +1383,7 @@
   function getFormData() {
     const activeGrid = currentCategory === 'computer' ? $('problemGridComputer') : problemGrid;
     const problems = Array.from(activeGrid.querySelectorAll('.check-pill.selected'));
-    const delivery = Array.from($('deliveryGrid').querySelectorAll('.delivery-card.selected')).map(d => d.dataset.val);
+    const delivery = ['print'];
     let modelVal = '';
     if (currentCategory === 'phone') modelVal = $('deviceModel').value;
     else if (currentCategory === 'computer') modelVal = $('deviceModelComputer').value;
@@ -1483,12 +1521,10 @@
     if (!data.problems.length) errors.push('At least one problem');
     if (!data.subtotal || parseFloat(data.subtotal) <= 0) errors.push('Subtotal amount');
     if (!data.signature) errors.push('Customer signature');
-    if (!data.delivery.length) errors.push('Receipt delivery method');
     if (errors.length) {
       alert('Please complete:\n\u2022 ' + errors.join('\n\u2022 '));
       return;
     }
-    const dn = { email: 'Email', sms: 'SMS', qr: 'QR Code', print: 'Print' };
     $('successDetail').innerHTML =
       '<strong>Order:</strong> #' + data.orderNo + '<br>' +
       '<strong>Store:</strong> ' + data.store.name + '<br>' +
@@ -1496,8 +1532,7 @@
       '<strong>Device:</strong> ' + data.device.model + '<br>' +
       '<strong>Service:</strong> ' + data.service + '<br>' +
       '<strong>Issues:</strong> ' + data.problems.length + ' selected<br>' +
-      '<strong>Total:</strong> $' + parseFloat(data.subtotal).toFixed(2) + ' (Deposit $' + data.deposit + ')<br>' +
-      '<strong>Delivery:</strong> ' + data.delivery.map(d => dn[d]).join(', ');
+      '<strong>Total:</strong> $' + parseFloat(data.subtotal).toFixed(2) + ' (Deposit $' + data.deposit + ')';
     $('successModal').classList.add('show');
     try { localStorage.removeItem('repairDraft_' + orderNo); } catch(e) {}
   }
@@ -1513,16 +1548,34 @@
   }
   function resetForm() {
     document.querySelectorAll('input:not([readonly]), textarea').forEach(el => el.value = '');
-    document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+    document.querySelectorAll('select:not(#storeSelect)').forEach(el => el.selectedIndex = 0);
     problemGrid.querySelectorAll('.check-pill').forEach(p => p.classList.remove('selected'));
+    $('problemGridComputer').querySelectorAll('.check-pill').forEach(p => p.classList.remove('selected'));
     $('problemCount').textContent = '0';
     $('customerHint').textContent = '';
     clearSignature();
+    // Reset pill defaults
+    ['serviceType','repairHistory','warrantyStatus','accessories','partsType','findMyStatus'].forEach(id => {
+      $(id).querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+    });
     $('serviceType').querySelector('[data-val="standard"]').classList.add('selected');
     $('repairHistory').querySelector('[data-val="unknown"]').classList.add('selected');
     $('warrantyStatus').querySelector('[data-val="non_warranty"]').classList.add('selected');
     $('accessories').querySelector('[data-val="other"]').classList.add('selected');
-    $('deliveryGrid').querySelectorAll('.delivery-card').forEach((c, i) => c.classList.toggle('selected', i === 0));
+    $('partsType').querySelector('[data-val="oem"]').classList.add('selected');
+    $('findMyStatus').querySelector('[data-val="unknown"]').classList.add('selected');
+    // Function test: all OK
+    markAllFuncTest(true);
+    // Restore store memory
+    const savedStore = localStorage.getItem('ezfixit_last_store');
+    if (savedStore) $('storeSelect').value = savedStore;
+    if (currentStaff) $('salesRep').value = currentStaff.name;
+    // Close all collapses
+    document.querySelectorAll('.collapse-content').forEach(c => {
+      c.classList.remove('open');
+      const btn = c.previousElementSibling;
+      if (btn) { const arrow = btn.querySelector('.collapse-arrow'); if (arrow) arrow.textContent = '\u25B6'; }
+    });
     orderNo = '17' + Date.now().toString().slice(-8);
     $('orderNo').textContent = '#' + orderNo;
     $('orderTime').textContent = nowStr();
